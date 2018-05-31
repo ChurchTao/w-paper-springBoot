@@ -1,0 +1,67 @@
+//利用原生的SQL进行查询操作
+@Query(value = "select o.* from orders o ,user u where o.uid=u.id and u.name=?1", nativeQuery = true)
+@Modifying
+public List<Order> findOrderByName(String name);
+
+//利用原生的SQL进行删除操作
+@Query(value = "delete from orders where id=?1 ", nativeQuery = true)
+@Modifying
+public void deleteOrderById(int id);
+
+//利用原生的SQL进行删除操作
+@Query(value = "delete from orders where uid=?1 ", nativeQuery = true)
+@Modifying
+public void deleteOrderByUId(int uid);
+
+//利用原生的SQL进行修改操作
+@Query(value = "update orders set name=?1 where id=?2 ", nativeQuery = true)
+@Modifying
+public void updateOrderName(String name,int id);
+
+//利用原生的SQL进行插入操作
+@Query(value = "insert into orders(name,uid) value(?1,?2)", nativeQuery = true)
+@Modifying
+public void insertOrder(String name,int uid);
+
+
+//And --- 等价于 SQL 中的 and 关键字，比如 findByHeightAndSex(int height,char sex)；
+public List<User> findByHeightAndSex(int height,char sex);
+
+// Or --- 等价于 SQL 中的 or 关键字，比如 findByHeightOrSex(int height,char sex)；
+public List<User> findByHeightOrSex(int height,char sex);
+
+//Between --- 等价于 SQL 中的 between 关键字，比如 findByHeightBetween(int min, int max)；
+public List<User> findByHeightBetween(int min,int max);
+
+//LessThan --- 等价于 SQL 中的 "<"，比如 findByHeightLessThan(int max)；
+public List<User> findByHeightLessThan(int max);
+
+//GreaterThan --- 等价于 SQL 中的">"，比如 findByHeightGreaterThan(int min)；
+public List<User> findByHeightGreaterThan(int min);
+
+//IsNull --- 等价于 SQL 中的 "is null"，比如 findByNameIsNull()；
+public List<User> findByNameIsNull();
+
+//IsNotNull --- 等价于 SQL 中的 "is not null"，比如 findByNameIsNotNull()；
+public List<User> findByNameIsNotNull();
+
+//NotNull --- 与 IsNotNull 等价；
+public List<User> findByNameNotNull();
+
+//Like --- 等价于 SQL 中的 "like"，比如 findByNameLike(String name);
+public List<User> findByNameLike(String name);
+
+//NotLike --- 等价于 SQL 中的 "not like"，比如 findByNameNotLike(String name)；
+public List<User> findByNameNotLike(String name);
+
+//OrderBy --- 等价于 SQL 中的 "order by"，比如 findByNameNotNullOrderByHeightAsc()；
+public List<User>findByNameNotNullOrderByHeightAsc();
+
+//Not --- 等价于 SQL 中的 "！ ="，比如 findByNameNot(String name)；
+public List<User> findByNameNot(String name);
+
+//In --- 等价于 SQL 中的 "in"，比如 findByNameIN(String name);
+public List<User> findByNameIn(String name);
+
+//NotIn --- 等价于 SQL 中的 "not in"，比如 findByNameNotIN(String name);
+public List<User> findByNameNotIn(String name);
