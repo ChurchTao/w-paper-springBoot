@@ -18,8 +18,6 @@ public class IndexController {
 
     @GetMapping(value = "/index")
     public RestResponse index(){
-//        System.out.println(DataContext.getSession().getId());
-//        System.out.println(DataContext.Cookie.get("JSESSIONID").toString());
-        return RestResponse.ok(userRepository.findAll(),200,"Server run well!");
+        return RestResponse.ok("",200,"Server run well!");
     }
 }

@@ -9,14 +9,13 @@ import com.github.churchtao.wpaper.dto.TagDTO;
 import com.github.churchtao.wpaper.dto.TypeDTO;
 import com.github.churchtao.wpaper.entity.Profession;
 import com.github.churchtao.wpaper.exception.ServerException;
+import com.github.churchtao.wpaper.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author taojiacheng
@@ -32,7 +31,7 @@ public class ProfessionService {
             throw new ServerException(500,"已经存在该模块了!");
         }
         Profession profession = new Profession();
-        profession.setAvatar(avatar);
+        profession.setAvatar(StringUtil.isEmpty(avatar)?"http://p7mnquexm.bkt.clouddn.com/default.jpg":avatar);
         profession.setName(name);
         profession.setAbout(about);
         profession.setCreateTime(new Date());
@@ -40,9 +39,10 @@ public class ProfessionService {
         return professionDAO.save(profession);
     }
 
+    @Transactional(rollbackFor = ServerException.class)
     public int changeFocus(int userId,int tagId,int status){
-        Integer statusRes = professionDAO.selectCombine(userId,tagId);
-        if (statusRes==null){
+        Map resultMap = professionDAO.selectCombine(userId,tagId);
+        if (resultMap.get("status")==null){
             professionDAO.insertUserProfession(userId,tagId);
             return 1;
         }else {

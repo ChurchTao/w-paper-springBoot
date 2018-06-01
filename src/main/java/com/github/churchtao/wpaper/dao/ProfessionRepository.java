@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProfessionRepository extends JpaRepository<Profession,Integer> {
 
@@ -27,7 +28,7 @@ public interface ProfessionRepository extends JpaRepository<Profession,Integer> 
     void insertUserProfession(Integer uid,Integer professionId);
 
     @Query(value = "SELECT status FROM profession_user WHERE user_id=?1 AND profession_id=?2", nativeQuery = true)
-    Integer selectCombine(Integer userId,Integer professionId);
+    Map selectCombine(Integer userId, Integer professionId);
 
     @Query(value = "update profession_user set status=?1 where profession_id=?2 AND user_id=?3", nativeQuery = true)
     @Modifying

@@ -91,7 +91,7 @@ public class PostService {
                     one.getReadNum(),new ArrayList<>(),one.getLikeNum(),one.getCommentNum(),one.getCreateTime());
             postSimpleInfoDTOS.add(dto);
         });
-        return PageObjectDTO.init(posts.getTotalElements(),posts.getTotalPages(),posts);
+        return PageObjectDTO.init(posts.getTotalElements(),posts.getTotalPages(),posts.getContent());
     }
 
     public Post countLike (int postId, int num){
