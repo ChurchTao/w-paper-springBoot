@@ -28,7 +28,12 @@ public class PostService {
     private PostRepository postDAO;
 
     public PageObjectDTO findPostMostHot(Integer uid){
-        Page<Post> posts =  postDAO.findByUserIdAndStatus(uid,1, PageableTools.sortPageDesc(0,10,"readNum"));
+        Page<Post> posts;
+        if (uid!=0){
+            posts=  postDAO.findByUserIdAndStatus(uid,1, PageableTools.sortPageDesc(0,10,"readNum"));
+        }else {
+            posts=  postDAO.findByStatus(1, PageableTools.sortPageDesc(0,10,"readNum"));
+        }
         List<PostSimpleInfoDTO> postSimpleInfoDTOS = new ArrayList<>();
         posts.forEach(one->{
             PostSimpleInfoDTO dto = new PostSimpleInfoDTO("/read/"+one.getId(),one.getTitle(),one.getUserName(),one.getKindName(),one.getKind()+"",
@@ -91,7 +96,7 @@ public class PostService {
                     one.getReadNum(),new ArrayList<>(),one.getLikeNum(),one.getCommentNum(),one.getCreateTime());
             postSimpleInfoDTOS.add(dto);
         });
-        return PageObjectDTO.init(posts.getTotalElements(),posts.getTotalPages(),posts.getContent());
+        return PageObjectDTO.init(posts.getTotalElements(),posts.getTotalPages(),postSimpleInfoDTOS);
     }
 
     public Post countLike (int postId, int num){

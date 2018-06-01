@@ -96,8 +96,9 @@ public class ProfessionService {
     }
 
     public List<TypeDTO> getTypes(){
-        List<Profession> professions = professionDAO.findAll();
+        Page<Profession> professions = professionDAO.findAll(PageableTools.noSortPage(0,6));
         List<TypeDTO> result = new ArrayList<TypeDTO>();
+        result.add(new TypeDTO("/","推荐","",0));
         professions.forEach(profession->{
             TypeDTO typeDTO = new TypeDTO("/welcome/"+profession.getId(),profession.getName(),String.valueOf(profession.getId()),profession.getId());
             result.add(typeDTO);

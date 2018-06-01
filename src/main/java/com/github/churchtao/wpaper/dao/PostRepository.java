@@ -20,6 +20,8 @@ public interface PostRepository extends JpaRepository<Post,Integer> {
 
     Page<Post> findByUserIdAndStatus(Integer userId,Integer status,Pageable pageable);
 
+    Page<Post> findByStatus(Integer status,Pageable pageable);
+
     @Query(value = "insert into profession_post(post_id, profession_id,status) value(?1,?2,1)", nativeQuery = true)
     @Modifying
     public void insertPostProfession(Integer postId,Integer professionId);
