@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,7 +60,7 @@ public class PostService {
     @Transactional(rollbackFor = ServerException.class)
     public Post savePost(String title,String content,int userId ,String userName,int kind ,String kindName){
         Post post = new Post();
-        Date now  = new Date();
+        Timestamp now  = new Timestamp(new Date().getTime());
         String uuid = CodecUtil.createUUID();
         post.setUpdateTime(now);
         post.setCreateTime(now);

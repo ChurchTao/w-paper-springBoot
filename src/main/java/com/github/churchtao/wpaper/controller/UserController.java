@@ -13,10 +13,7 @@ import com.github.churchtao.wpaper.util.RestResponse;
 import com.github.churchtao.wpaper.util.StringUtil;
 import com.qiniu.util.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,10 +30,9 @@ public class UserController extends BaseController{
     private LogService logService;
 
     @RequestMapping(value = "/user/login",method = RequestMethod.POST)
-    public RestResponse login(@RequestParam(name = "username") String username,
-                              @RequestParam(name = "password") String password, HttpServletRequest request) {
+    public RestResponse login(@RequestBody LoginObj loginObj, HttpServletRequest request) {
         String ip = RequestUtil.getIp(request);
-        User user =userService.login(username,password,ip);
+        User user =userService.login(loginObj.getUsername(),loginObj.getPassword(),ip);
         HttpSession session = this.getSession();
         if (StringUtil.isEmpty(user.getToken())){
             String time = String.valueOf(System.currentTimeMillis());
@@ -50,10 +46,9 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping(value = "/user/loginByToken",method = RequestMethod.POST)
-    public RestResponse loginByToken(@RequestParam(name = "id") String id,
-                                     @RequestParam(name = "token") String token, HttpServletRequest request) {
+    public RestResponse loginByToken(@RequestBody LoginObj loginObj, HttpServletRequest request) {
         String ip = RequestUtil.getIp(request);
-        User user =userService.loginByToken(Integer.parseInt(id),token);
+        User user =userService.loginByToken(loginObj.getId(),loginObj.getToken());
         HttpSession session = this.getSession();
         logService.save(LogAction.AUTO_LOGIN.toString(),"",ip,user.getNickname(),user.getId());
         session.setAttribute(BaseConst.LOGIN_SESSION_KEY,user);
@@ -61,28 +56,21 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping(value = "/user/getUserInfo",method = RequestMethod.POST)
-    public RestResponse getUserInfo(@RequestParam(name = "id") String id,
-                                    @RequestParam(name = "token") String token) {
-        User user =userService.loginByToken(Integer.parseInt(id),token);
+    public RestResponse getUserInfo(@RequestBody LoginObj loginObj) {
+        User user =userService.loginByToken(loginObj.getId(),loginObj.getToken());
         return RestResponse.ok(user,200,"成功！");
     }
 
     @RequestMapping(value = "/user/init",method = RequestMethod.POST)
-    public RestResponse init(@RequestParam(name = "username") String username,
-                             @RequestParam(name = "phoneOrEmail") String phoneOrEmail,
-                             @RequestParam(name = "password") String password, HttpServletRequest request){
-        User user =userService.save(username,phoneOrEmail,password,RequestUtil.getIp(request));
+    public RestResponse init(@RequestBody LoginObj loginObj, HttpServletRequest request){
+        User user =userService.save(loginObj.getUsername(),loginObj.getPhoneOrEmail(),loginObj.getPassword(),RequestUtil.getIp(request));
         return RestResponse.ok(user,200,"注册成功!");
     }
 
     @RequestMapping(value = "/user/update",method = RequestMethod.POST)
-    public RestResponse update(@RequestParam(name = "nickname") String nickname,
-                               @RequestParam(name = "gender") String gender,
-                               @RequestParam(name = "info") String info,
-                               @RequestParam(name = "id") Integer id,
-                               @RequestParam(name = "avatar") String avatar){
-        int genderInt = "男".equals(gender) ?1:0;
-        return RestResponse.ok(userService.update(id,nickname,avatar,genderInt,info),200,"更新成功");
+    public RestResponse update(@RequestBody InitObj initObj){
+        int genderInt = "男".equals(initObj.getGender()) ?1:0;
+        return RestResponse.ok(userService.update(initObj.getId(),initObj.getNickname(),initObj.getAvatar(),genderInt,initObj.getInfo()),200,"更新成功");
     }
 
     @RequestMapping(value = "/qiniu/uptoken",method = RequestMethod.GET)
@@ -93,5 +81,107 @@ public class UserController extends BaseController{
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);
         return RestResponse.ok(upToken,200);
+    }
+}
+
+class LoginObj{
+    private Integer id;
+    private String token;
+    private String username;
+    private String password;
+private String phoneOrEmail;
+
+    public LoginObj() {
+    }
+
+    public String getPhoneOrEmail() {
+        return phoneOrEmail;
+    }
+
+    public void setPhoneOrEmail(String phoneOrEmail) {
+        this.phoneOrEmail = phoneOrEmail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+}
+
+class InitObj{
+    private String nickname;
+    private String gender;
+   private  String info;
+    private Integer id;
+   private  String avatar;
+
+    public InitObj() {
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

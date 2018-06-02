@@ -9,10 +9,7 @@ import com.github.churchtao.wpaper.service.PostService;
 import com.github.churchtao.wpaper.util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -88,12 +85,67 @@ public class PostController extends BaseController {
     }
 
     @RequestMapping(value = "/post/publish",method = RequestMethod.POST)
-    public RestResponse publishPost(@RequestParam(name = "title") String title,
-                                    @RequestParam(name = "content") String content,
-                                    @RequestParam(name = "userId") Integer userId,
-                                    @RequestParam(name = "userName") String userName,
-                                    @RequestParam(name = "kind") Integer kind,
-                                    @RequestParam(name = "kindName") String kindName){
-        return RestResponse.ok(postService.savePost(title,content,userId,userName,kind,kindName),200,"发表成功");
+    public RestResponse publishPost(@RequestBody PostNew postNew){
+        return RestResponse.ok(postService.savePost(postNew.getTitle(),postNew.getContent(),postNew.getUserId(),postNew.getUserName(),postNew.getKind(),postNew.getKindName()),200,"发表成功");
+    }
+
+}
+class PostNew{
+    private String title;
+    private String content;
+    private Integer userId;
+    private String userName;
+    private Integer kind;
+    private String kindName;
+
+    public PostNew() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Integer getKind() {
+        return kind;
+    }
+
+    public void setKind(Integer kind) {
+        this.kind = kind;
+    }
+
+    public String getKindName() {
+        return kindName;
+    }
+
+    public void setKindName(String kindName) {
+        this.kindName = kindName;
     }
 }

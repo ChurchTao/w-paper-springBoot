@@ -1,6 +1,7 @@
 package com.github.churchtao.wpaper.entity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -21,8 +22,8 @@ public class Post {
   private int likeNum;
   private int starNum;
   private int commentNum;
-  private Date createTime;
-  private Date updateTime;
+  private Timestamp createTime;
+  private Timestamp updateTime;
   private int status;
 //  @ManyToOne
 //  @JoinColumn(name = "user_id")
@@ -135,19 +136,19 @@ public class Post {
         this.commentNum = commentNum;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public Timestamp getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
 

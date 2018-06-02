@@ -13,10 +13,7 @@ import com.github.churchtao.wpaper.service.UserService;
 import com.github.churchtao.wpaper.util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +32,8 @@ public class CommentController {
     private UserRepository userDAO;
 
     @RequestMapping(value = "/comment/publish",method = RequestMethod.POST)
-    public RestResponse publishComment(@RequestParam(name = "content") String content,
-                                       @RequestParam(name = "userId") Integer userId,
-                                       @RequestParam(name = "postId") Integer postId,
-                                       @RequestParam(name = "parentId") Integer parentId){
-        return RestResponse.ok(commentService.addComment(postId,parentId,userId,content),200,"评论成功");
+    public RestResponse publishComment(@RequestBody RequestObj requestObj){
+        return RestResponse.ok(commentService.addComment(requestObj.getPostId(),requestObj.getParentId(),requestObj.getUserId(),requestObj.getContent()),200,"评论成功");
     }
 
     @RequestMapping(value = "/comment/delete",method = RequestMethod.GET)
@@ -70,5 +64,50 @@ public class CommentController {
             commentDTOs.add(commentDTO);
         });
         return RestResponse.ok(PageObjectDTO.init(comments.getTotalElements(),comments.getTotalPages(),commentDTOs),200,"获取成功");
+    }
+}
+
+class RequestObj{
+    private String content;
+
+    private Integer userId;
+
+    private Integer postId;
+
+    private Integer parentId;
+
+    public RequestObj() {
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 }

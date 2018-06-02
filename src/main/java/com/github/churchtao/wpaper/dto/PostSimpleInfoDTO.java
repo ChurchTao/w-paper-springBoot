@@ -1,5 +1,6 @@
 package com.github.churchtao.wpaper.dto;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ public class PostSimpleInfoDTO {
     private boolean isspecialist;
     private String time;
 
-    public PostSimpleInfoDTO(String href, String title, String author, String typeName, String type, int readingtimes, List<Integer> tags, int like, int comment, Date time) {
+    public PostSimpleInfoDTO(String href, String title, String author, String typeName, String type, int readingtimes, List<Integer> tags, int like, int comment, Timestamp time) {
         this.href = href;
         this.title = title;
         this.author = author;

@@ -4,10 +4,7 @@ import com.github.churchtao.wpaper.service.ProfessionService;
 import com.github.churchtao.wpaper.util.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,21 +50,83 @@ public class ProfessionController extends BaseController{
 
 
     @RequestMapping(value = "/profession/update",method = RequestMethod.POST)
-    public RestResponse update(@RequestParam(name = "id") Integer id,
-                               @RequestParam(name = "name") String name,
-                               @RequestParam(name = "avatar") String avatar,
-                               @RequestParam(name = "about") String about,
-                               @RequestParam(name = "status") Integer status
+    public RestResponse update(@RequestBody ProfessionObj obj
                                ){
-        return RestResponse.ok(professionService.updateProfessionInfo(id,name,avatar,about,status),200,"修改成功~");
+        return RestResponse.ok(professionService.updateProfessionInfo(obj.getId(),obj.getName(),obj.getAvatar(),obj.getAbout(),obj.getStatus()),200,"修改成功~");
     }
 
     @RequestMapping(value = "/profession/changeFocus",method = RequestMethod.POST)
-    public RestResponse focus(@RequestParam(name = "userId") Integer userId,
-                              @RequestParam(name = "tagId") Integer tagId,
-                              @RequestParam(name = "status") Integer status){
-        return RestResponse.ok(professionService.changeFocus(userId,tagId,status),200,"修改成功~");
+    public RestResponse focus(@RequestBody ProfessionObj obj){
+        return RestResponse.ok(professionService.changeFocus(obj.getUserId(),obj.getTagId(),obj.getStatus()),200,"修改成功~");
     }
 
 
+}
+class ProfessionObj{
+    private Integer userId;
+    private Integer tagId;
+    private Integer id;
+    private String name;
+    private String avatar;
+    private String about;
+    private Integer status;
+
+    public ProfessionObj() {
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Integer tagId) {
+        this.tagId = tagId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }
