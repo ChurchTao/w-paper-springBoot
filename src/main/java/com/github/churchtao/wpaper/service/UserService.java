@@ -129,8 +129,7 @@ public class UserService {
         user.setAvatar(avatar);
         user.setGender(gender);
         user.setInfo(info);
-        userDAO.save(user);
-        throw new ServerException(500,"更新出错");
+        return userDAO.save(user);
     }
 
     public User loginRemember(int userId,String token){
