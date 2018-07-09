@@ -23,7 +23,7 @@ public class PostSimpleInfoDTO {
     private boolean isspecialist;
     private String time;
 
-    public PostSimpleInfoDTO(String href, String title, String author, String typeName, String type, int readingtimes, List<Integer> tags, int like, int comment, Timestamp time) {
+    public PostSimpleInfoDTO(String href, String title, String author, String typeName, String type, int readingtimes, List<Integer> tags, int like, int comment, Date time) {
         this.href = href;
         this.title = title;
         this.author = author;

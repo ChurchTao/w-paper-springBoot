@@ -22,8 +22,8 @@ public class Post {
   private int likeNum;
   private int starNum;
   private int commentNum;
-  private Timestamp createTime;
-  private Timestamp updateTime;
+  private Date createTime;
+  private Date updateTime;
   private int status;
 //  @ManyToOne
 //  @JoinColumn(name = "user_id")
@@ -136,19 +136,19 @@ public class Post {
         this.commentNum = commentNum;
     }
 
-    public Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 

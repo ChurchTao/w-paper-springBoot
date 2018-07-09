@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://120.79.207.154:3306/w-paper2?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://127.0.0.1:3306/w-paper2?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: tjc159753
   jpa:

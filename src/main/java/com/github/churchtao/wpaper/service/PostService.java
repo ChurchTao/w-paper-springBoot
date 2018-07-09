@@ -55,12 +55,22 @@ public class PostService {
         return PageObjectDTO.init(posts.getTotalElements(),posts.getTotalPages(),postSimpleInfoDTOS);
     }
 
+    public Post delPost(Integer postId){
+        Post post = postDAO.findById(postId).get();
+        post.setStatus(StatusConst.OFF);
+        return postDAO.save(post);
+    }
 
+    public Post readPost(Integer postId){
+        Post post = postDAO.findById(postId).get();
+        post.setReadNum(post.getReadNum()+1);
+        return post;
+    }
 
     @Transactional(rollbackFor = ServerException.class)
     public Post savePost(String title,String content,int userId ,String userName,int kind ,String kindName){
         Post post = new Post();
-        Timestamp now  = new Timestamp(new Date().getTime());
+        Date now  = new Date();
         String uuid = CodecUtil.createUUID();
         post.setUpdateTime(now);
         post.setCreateTime(now);

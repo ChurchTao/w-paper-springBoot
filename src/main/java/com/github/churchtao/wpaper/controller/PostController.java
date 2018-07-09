@@ -56,6 +56,10 @@ public class PostController extends BaseController {
 //        int type = param.getInt("type");
 //        return RestResponse.ok(postService.countPostByType(type),200);
 //    }
+    @RequestMapping(value = "/post/del",method = RequestMethod.GET)
+    public RestResponse getPostByType(@RequestParam(name = "postId") Integer id){
+        return RestResponse.ok(postService.delPost(id),200,"获取成功~");
+    }
 
     @RequestMapping(value = "/post/getPostByType",method = RequestMethod.GET)
     public RestResponse getPostByType(@RequestParam(name = "id") Integer id,
